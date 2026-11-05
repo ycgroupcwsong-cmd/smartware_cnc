@@ -43,6 +43,12 @@ body{margin:0;background:#fff;color:#111}
 .pm-id .mark i{display:block;width:23px;height:2px;background:#fff;border-radius:0;transform:none}
 .pm-id .doc{font-size:10px;font-weight:600;letter-spacing:.21em;color:#b8b8b8;text-transform:uppercase}
 
+/* OPTIONAL IMAGE BRAND LOGO — URL is configured above */
+.pm-id .mark .pm-logo-img{display:none;width:auto;height:31px;max-width:min(230px,55vw);object-fit:contain}
+.pm-id .mark.has-logo .pm-logo-img{display:block}
+.pm-id .mark.has-logo .pm-logo-fallback{display:none}
+@media(max-width:620px){.pm-id .mark .pm-logo-img{height:25px;max-width:52vw}}
+
 /* PRODUCT SERIES NAVIGATION */
 .pm-tabs{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.97);border-bottom:1px solid #dbdbdb;backdrop-filter:blur(14px)}
 .pm-tabs .pm-in{display:flex;align-items:stretch;gap:0;min-height:76px}
@@ -355,6 +361,7 @@ body{margin:0;background:#fff;color:#111}
    등록하지 않은 이미지는 안내 패널로 표시됩니다.
    ======================================================= */
 window.ATC_IMAGE_URLS = {
+  brandLogo: "https://i.imgur.com/3PcBmEz.png",                 // 최상단 로고 이미지 URL (흰색 투명 PNG/SVG 권장)
   atc1325Main: "https://i.imgur.com/GTZGK4h.png",       // ATC1325 메인 장비 사진
   ATC6090Main: "https://i.imgur.com/puv7Mkn.jpeg",      // ATC6090 메인 장비 사진
   toolChange: "https://i.imgur.com/kUOoCdF.gif",        // 자동 공구교체 GIF
@@ -374,7 +381,7 @@ window.ATC_IMAGE_URLS = {
 <div class="pm-page">
 <div class="pm-band pm-id">
 <div class="pm-in">
-<span class="mark"><i></i>YCGROUP</span>
+<span class="mark" id="pm-brand-mark"><img class="pm-logo-img" id="pm-brand-logo" alt="회사 로고"/><span class="pm-logo-fallback">YCGROUP</span></span>
 <span class="doc">ATC CNC ROUTER</span>
 </div>
 </div>
@@ -985,6 +992,17 @@ window.ATC_IMAGE_URLS = {
     if(gh)url='https://raw.githubusercontent.com/'+gh[1]+'/'+gh[2]+'/'+gh[3]+'/'+gh[4];
     return /^(?:https?:\/\/|\.\.?\/|\/|[\w.-]+\/)/i.test(url) ? url : '';
   }
+  // 상단 브랜드 로고: 입력한 이미지가 정상 로드되면 텍스트 대신 표시합니다.
+  var brandLogo = root.querySelector('#pm-brand-logo');
+  var brandMark = root.querySelector('#pm-brand-mark');
+  var brandLogoUrl = usableUrl(imageUrls.brandLogo);
+  if (brandLogo && brandMark && brandLogoUrl) {
+    brandLogo.onload = function(){ brandMark.classList.add('has-logo'); };
+    brandLogo.onerror = function(){ brandMark.classList.remove('has-logo'); };
+    brandLogo.src = brandLogoUrl;
+    if (brandLogo.complete && brandLogo.naturalWidth > 0) brandMark.classList.add('has-logo');
+  }
+
   root.querySelectorAll('img[data-image-url-key]').forEach(function(img){
     var key=img.getAttribute('data-image-url-key');
     if(key==='appsGallery')return;

@@ -1,0 +1,6 @@
+/* Scoped styling only: does not alter Sixshop's header, cart or purchase panel. */
+#smartware-yc-a1325-embed {display:block; width:100%; max-width:1400px; margin:24px auto; padding:0; box-sizing:border-box; clear:both;}
+#smartware-yc-a1325-embed iframe {display:block; width:100%; height:2000px; min-height:600px; border:0; background:#fff;}
+#smartware-yc-a1325-embed .sw-embed-link {margin:8px 0; font-size:12px; text-align:right;}
+#smartware-yc-a1325-embed .sw-embed-link a {color:inherit; text-decoration:underline;}
+@media(max-width:767px){#smartware-yc-a1325-embed{margin:16px auto;}#smartware-yc-a1325-embed iframe{height:2600px;}}
